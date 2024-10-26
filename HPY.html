@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Surprise!</title>
+    <style>
+        /* Basic Styling */
+        body, html {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #ffe6e6;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        /* Envelope Styling */
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background: #c0392b;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        /* Envelope Flap */
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: -70px;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background: #e74c3c;
+            border-radius: 50% 50% 0 0;
+            transform-origin: bottom;
+            transition: transform 0.5s ease;
+        }
+
+        /* Card Inside Envelope */
+        .card {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translate(-50%, -150%);
+            width: 90%;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .card h1 {
+            color: #e74c3c;
+            font-size: 1.8em;
+            margin: 0;
+        }
+
+        /* Confetti Effect */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            animation: confettiFall linear infinite;
+        }
+        
+        @keyframes confettiFall {
+            0% { transform: translateY(-100vh) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(720deg); }
+        }
+
+        /* Envelope and Card Animations */
+        .envelope.opened .card {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+
+        .envelope.opened::before {
+            transform: rotate(-150deg);
+        }
+    </style>
+</head>
+<body>
+
+<div class="envelope" onclick="openEnvelope()">
+    <div class="card">
+        <img id="photo" src="https://via.placeholder.com/100" alt="Custom Photo">
+        <h1>Happy Birthday cool DUDE!</h1>
+    </div>
+</div>
+
+<script>
+    // Custom photo URL (use the `photo` URL parameter)
+    const urlParams = new URLSearchParams(window.location.search);
+    const photoUrl = urlParams.get('photo');
+    if (photoUrl) {
+        document.getElementById('photo').src = photoUrl;
+    }
+
+    // Open envelope and reveal card on click
+    function openEnvelope() {
+        document.querySelector('.envelope').classList.toggle('opened');
+        createConfetti();
+    }
+
+    // Generate confetti
+    function createConfetti() {
+        for (let i = 0; i < 50; i++) {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            confetti.style.left = `${Math.random() * 100}vw`;
+            confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 60%)`;
+            confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+            document.body.appendChild(confetti);
+        }
+    }
+</script>
+
+</body>
+</html>
